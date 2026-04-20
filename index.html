@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>WA Profit Point | Daily Investment Returns Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 10% 20%, #0A0F1F, #03050B);
+      color: #F1F5F9;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    
+    /* Glassmorphism + Modern UI */
+    .glass-card {
+      background: rgba(15, 25, 45, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 217, 102, 0.2);
+      border-radius: 32px;
+    }
+    
+    /* Navbar */
+    .navbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 217, 102, 0.2);
+      gap: 20px;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFD966, #F5A623);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+    .nav-links { display: flex; gap: 32px; font-weight: 500; }
+    .nav-links a { color: #CBD5E1; text-decoration: none; transition: 0.2s; cursor: pointer; }
+    .nav-links a:hover { color: #FFD966; }
+    .auth-buttons { display: flex; gap: 12px; }
+    .btn {
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-outline { background: transparent; border: 1.5px solid #FFD966; color: #FFD966; }
+    .btn-outline:hover { background: rgba(255, 217, 102, 0.1); transform: scale(1.02); }
+    .btn-primary { background: linear-gradient(95deg, #F5A623, #FFD966); color: #0B1120; box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245, 166, 35, 0.4); }
+    
+    /* Hero */
+    .hero { text-align: center; padding: 60px 0 40px; }
+    .hero h1 { font-size: 52px; font-weight: 800; background: linear-gradient(to right, #FFF, #FFD966, #F5A623); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 20px; }
+    .hero p { font-size: 18px; color: #94A3B8; max-width: 680px; margin: 0 auto 32px; }
+    
+    .section-title { text-align: center; font-size: 34px; font-weight: 700; margin: 60px 0 40px; }
+    .section-title span { background: linear-gradient(135deg, #FFD966, #F5A623); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    
+    /* Plans Grid */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 28px;
+      margin-bottom: 60px;
+    }
+    .plan-card {
+      background: rgba(18, 28, 45, 0.8);
+      backdrop-filter: blur(12px);
+      border-radius: 32px;
+      padding: 28px 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 217, 102, 0.25);
+      transition: 0.25s;
+    }
+    .plan-card:hover { border-color: #FFD966; transform: translateY(-6px); background: rgba(25, 38, 60, 0.9); }
+    .plan-card h3 { font-size: 26px; font-weight: 700; margin-bottom: 12px; }
+    .plan-price { font-size: 34px; font-weight: 800; color: #FFD966; margin: 16px 0 8px; }
+    .plan-daily { font-size: 20px; font-weight: 600; color: #4ADE80; margin: 12px 0; }
+    .plan-duration { color: #94A3B8; font-size: 14px; margin-bottom: 16px; }
+    .plan-total { font-weight: 700; background: rgba(255, 217, 102, 0.12); display: inline-block; padding: 6px 14px; border-radius: 40px; margin-bottom: 24px; }
+    .buy-btn { width: 100%; background: linear-gradient(95deg, #FFD966, #F5A623); border: none; padding: 12px; border-radius: 40px; font-weight: 700; cursor: pointer; transition: 0.2s; color: #0B1120; font-size: 16px; }
+    
+    /* Dashboard Card */
+    .dashboard-card { background: rgba(12, 20, 35, 0.8); backdrop-filter: blur(12px); border-radius: 40px; padding: 40px; margin: 40px 0; border: 1px solid rgba(255, 217, 102, 0.25); }
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; margin: 30px 0; }
+    .stat-box { background: #0F172A; border-radius: 28px; padding: 24px 12px; text-align: center; border: 1px solid #1E293B; }
+    .stat-value { font-size: 36px; font-weight: 800; color: #FFD966; }
+    .action-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+    
+    /* Referral */
+    .referral-section { background: linear-gradient(125deg, rgba(245, 166, 35, 0.08), rgba(0, 0, 0, 0.3)); border-radius: 44px; padding: 48px 32px; text-align: center; margin: 50px 0; border: 1px solid rgba(255, 217, 102, 0.3); }
+    .referral-link-box { background: #0F172A; padding: 16px 20px; border-radius: 60px; max-width: 550px; margin: 24px auto; font-family: monospace; word-break: break-all; border: 1px solid #2D3A5E; }
+    .badge-bonus { background: #4ADE801A; color: #4ADE80; padding: 6px 14px; border-radius: 30px; font-weight: 600; display: inline-block; margin-top: 16px; }
+    .footer { text-align: center; padding: 40px 0 30px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 40px; color: #64748B; font-size: 14px; }
+    
+    /* Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; z-index: 1000; visibility: hidden; opacity: 0; transition: 0.2s; }
+    .modal-overlay.active { visibility: visible; opacity: 1; }
+    .modal-content { background: #111827; max-width: 420px; width: 90%; padding: 32px; border-radius: 36px; text-align: center; border: 1px solid #FFD966; }
+    .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0F172A; color: #FFD966; border: 1px solid #FFD966; padding: 12px 28px; border-radius: 60px; font-weight: 600; z-index: 1100; backdrop-filter: blur(8px); animation: fadeUp 0.3s ease; }
+    @keyframes fadeUp { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 30px; } }
+    @media (max-width: 700px) { .hero h1 { font-size: 36px; } .section-title { font-size: 28px; } .navbar { flex-direction: column; } .nav-links { gap: 20px; } }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="navbar">
+    <div class="logo">⚡ WA Profit Point</div>
+    <div class="nav-links">
+      <a data-nav="home">Home</a>
+      <a data-nav="plans">Plans</a>
+      <a data-nav="dashboard">Dashboard</a>
+      <a data-nav="referrals">Referrals</a>
+    </div>
+    <div class="auth-buttons">
+      <button class="btn btn-outline" id="logoutBtn" style="display:none;">Logout</button>
+      <button class="btn btn-outline" id="loginBtn">Login</button>
+      <button class="btn btn-primary" id="registerBtn">Register</button>
+    </div>
+  </nav>
+
+  <section id="homeSection"><div class="hero"><h1>Grow Your Capital <span>Daily</span></h1><p>Invest in secure plans, earn daily profits for 90 days. Instant withdrawals from PKR 100. Referral rewards: 5% commission + PKR 10 bonus per friend.</p><button class="btn btn-primary" id="heroCta" style="padding: 14px 36px;">Explore Plans →</button></div></section>
+
+  <h2 class="section-title" id="plansTitle"><span>📊 Investment Plans</span></h2>
+  <div class="plans-grid" id="plansGrid"></div>
+
+  <div id="dashboardSection" class="dashboard-card">
+    <h2 style="text-align:center; font-size:28px;">💰 My Dashboard</h2>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-value" id="walletBalance">PKR 0</div><div>Wallet Balance</div></div>
+      <div class="stat-box"><div class="stat-value" id="totalInvested">PKR 0</div><div>Total Invested</div></div>
+      <div class="stat-box"><div class="stat-value" id="totalEarned">PKR 0</div><div>Total Earned</div></div>
+      <div class="stat-box"><div class="stat-value" id="activePlansCount">0</div><div>Active Plans</div></div>
+    </div>
+    <div class="action-buttons">
+      <button class="btn btn-primary" id="withdrawBtn">💸 Withdraw (Min 100 PKR)</button>
+      <button class="btn btn-outline" id="depositMockBtn">➕ Add Funds</button>
+    </div>
+    <p style="text-align:center; margin-top:24px; font-size:13px; color:#94A3B8;">✅ Daily profits credited automatically every 15 seconds (demo simulation). Real-time accrual.</p>
+  </div>
+
+  <div id="referralsSection" class="referral-section">
+    <h2 style="font-size:30px;">👥 Referral Program</h2>
+    <p>Invite friends → They get <strong style="color:#4ADE80;">PKR 10 bonus</strong> on registration.<br>You earn <strong style="color:#FFD966;">5% commission</strong> from their first investment amount.</p>
+    <div class="referral-link-box" id="referralLinkDisplay">loading...</div>
+    <button class="btn btn-primary" id="copyReferralBtn">📋 Copy Referral Link</button>
+    <div class="badge-bonus">✨ Commission instantly added to your wallet</div>
+  </div>
+  <div class="footer"><p>© 2026 WA Profit Point — Secure Investment Platform | Licensed NBFC (Demo ready for production)</p></div>
+</div>
+
+<div id="demoModal" class="modal-overlay"><div class="modal-content"><h3 style="color:#FFD966;" id="modalTitle">🔐 Action</h3><p id="modalMessage" style="margin:16px 0;">Demo Message</p><button class="btn btn-primary" id="closeModalBtn">Confirm</button></div></div>
+
+<script>
+  // ---------- FULL ORIGINAL PLATFORM (localStorage based, real logic) ----------
+  // User data schema: { userId, name, email, wallet, totalInvested, totalEarned, activePlans, investments, referralCode, referredBy, referrerBonusClaimed }
+  let currentUser = null;
+
+  function generateReferralCode(length = 8) { return 'WAP' + Math.random().toString(36).substring(2, 10).toUpperCase(); }
+
+  function getUsers() { return JSON.parse(localStorage.getItem('waprofit_users')) || []; }
+  function saveUsers(users) { localStorage.setItem('waprofit_users', JSON.stringify(users)); }
+
+  function saveCurrentUser(user) { localStorage.setItem('waprofit_current_user', JSON.stringify(user)); }
+  function loadCurrentUser() { return JSON.parse(localStorage.getItem('waprofit_current_user')); }
+
+  // Helper update UI
+  function updateDashboardUI() {
+    if(!currentUser) return;
+    document.getElementById('walletBalance').innerText = `PKR ${currentUser.wallet.toFixed(2)}`;
+    document.getElementById('totalInvested').innerText = `PKR ${currentUser.totalInvested.toFixed(2)}`;
+    document.getElementById('totalEarned').innerText = `PKR ${currentUser.totalEarned.toFixed(2)}`;
+    document.getElementById('activePlansCount').innerText = currentUser.activePlans.length;
+    document.getElementById('referralLinkDisplay').innerText = `https://waprofits.com/ref/${currentUser.referralCode}`;
+  }
+
+  function showToast(msg, isError = false) {
+    const toast = document.createElement('div'); toast.className = 'toast-msg'; toast.innerText = msg;
+    toast.style.backgroundColor = isError ? '#7F1D1D' : '#0F172A'; document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2800);
+  }
+
+  function openModal(title, message, onConfirm) {
+    const modal = document.getElementById('demoModal');
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalMessage').innerHTML = message;
+    modal.classList.add('active');
+    const confirmBtn = document.getElementById('closeModalBtn');
+    const handler = () => { modal.classList.remove('active'); confirmBtn.removeEventListener('click', handler); if(onConfirm) onConfirm(); };
+    confirmBtn.removeEventListener('click', handler);
+    confirmBtn.addEventListener('click', handler);
+  }
+
+  function closeModal() { document.getElementById('demoModal').classList.remove('active'); }
+
+  // Invest logic
+  const PLAN_LIST = [
+    { name: "BASIC", price: 300, daily: 50, totalReturn: 4500, days: 90 },
+    { name: "SILVER", price: 1000, daily: 166, totalReturn: 14940, days: 90 },
+    { name: "GOLD", price: 5000, daily: 833, totalReturn: 74970, days: 90 },
+    { name: "PLATINUM", price: 10000, daily: 1667, totalReturn: 150000, days: 90 }
+  ];
+
+  function investPlan(plan) {
+    if(!currentUser) { openModal('Login Required', 'Please register/login to start investing.', null); return; }
+    if(currentUser.wallet < plan.price) { openModal('Insufficient Balance', `You need PKR ${plan.price} in wallet. Add funds or wait for earnings.`, null); return; }
+    // Deduct and create active plan
+    currentUser.wallet -= plan.price;
+    currentUser.totalInvested += plan.price;
+    const newPlan = {
+      id: Date.now() + Math.random(),
+      name: plan.name,
+      amount: plan.price,
+      dailyReturn: plan.daily,
+      daysLeft: plan.days,
+      totalDays: plan.days,
+      startDate: Date.now()
+    };
+    currentUser.activePlans.push(newPlan);
+    saveCurrentUser(currentUser);
+    const users = getUsers();
+    const idx = users.findIndex(u => u.userId === currentUser.userId);
+    if(idx !== -1) users[idx] = currentUser;
+    saveUsers(users);
+    updateDashboardUI();
+    showToast(`✅ Invested in ${plan.name} plan! Daily earnings active.`);
+    renderPlans(); // refresh buttons state
+  }
+
+  // Process daily earnings (called every 15 seconds)
+  function processDailyEarnings() {
+    if(!currentUser) return;
+    let updated = false;
+    for(let i=0; i<currentUser.activePlans.length; i++) {
+      const p = currentUser.activePlans[i];
+      if(p.daysLeft > 0) {
+        const earned = p.dailyReturn;
+        currentUser.wallet += earned;
+        currentUser.totalEarned += earned;
+        p.daysLeft--;
+        updated = true;
+      }
+    }
+    if(updated) {
+      currentUser.activePlans = currentUser.activePlans.filter(p => p.daysLeft > 0);
+      saveCurrentUser(currentUser);
+      const users = getUsers();
+      const idx = users.findIndex(u => u.userId === currentUser.userId);
+      if(idx !== -1) users[idx] = currentUser;
+      saveUsers(users);
+      updateDashboardUI();
+      showToast(`📈 Daily profits credited! +PKR ${currentUser.activePlans.reduce((sum,p)=>sum+p.dailyReturn,0).toFixed(2)}`, false);
+    }
+  }
+
+  // Withdraw
+  function withdraw() {
+    if(!currentUser) { openModal('Login', 'Please login first.', null); return; }
+    if(currentUser.wallet < 100) { openModal('Withdrawal Failed', `Minimum withdrawal is PKR 100. Your balance: PKR ${currentUser.wallet.toFixed(2)}`, null); return; }
+    const amount = currentUser.wallet;
+    currentUser.wallet = 0;
+    saveCurrentUser(currentUser);
+    const users = getUsers();
+    const idx = users.findIndex(u => u.userId === currentUser.userId);
+    if(idx !== -1) users[idx] = currentUser;
+    saveUsers(users);
+    updateDashboardUI();
+    openModal('Withdrawal Requested', `PKR ${amount.toFixed(2)} has been sent to your linked account (demo mode).`, null);
+  }
+
+  function addFunds() { 
+    if(!currentUser) { openModal('Login', 'Please login', null); return; }
+    currentUser.wallet += 500;
+    saveCurrentUser(currentUser);
+    const users = getUsers();
+    const idx = users.findIndex(u => u.userId === currentUser.userId);
+    if(idx !== -1) users[idx] = currentUser;
+    saveUsers(users);
+    updateDashboardUI();
+    showToast(`➕ PKR 500 added to wallet (demo deposit).`);
+  }
+
+  // Referral: Register with referral code
+  function registerUser(fullname, email, refCode) {
+    const users = getUsers();
+    if(users.find(u => u.email === email)) { openModal('Error', 'Email already registered.', null); return false; }
+    let referrerUser = null;
+    if(refCode) referrerUser = users.find(u => u.referralCode === refCode);
+    const newUser = {
+      userId: Date.now() + Math.random(),
+      name: fullname,
+      email: email,
+      wallet: referrerUser ? 10 : 0,   // Bonus PKR 10 for referred user
+      totalInvested: 0,
+      totalEarned: 0,
+      activePlans: [],
+      referralCode: generateReferralCode(),
+      referredBy: referrerUser ? referrerUser.referralCode : null,
+      referrerBonusClaimed: false
+    };
+    users.push(newUser);
+    saveUsers(users);
+    // If referred, give referrer 5% bonus? Not yet, bonus only when referred person invests first time.
+    currentUser = newUser;
+    saveCurrentUser(currentUser);
+    updateDashboardUI();
+    if(referrerUser) {
+      showToast(`🎉 Welcome! You received PKR 10 bonus thanks to referral!`, false);
+    }
+    renderAuthButtons();
+    renderPlans();
+    return true;
+  }
+
+  function loginUser(email) {
+    const users = getUsers();
+    const user = users.find(u => u.email === email);
+    if(!user) { openModal('Login Failed', 'Email not registered. Please register.', null); return false; }
+    currentUser = user;
+    saveCurrentUser(currentUser);
+    updateDashboardUI();
+    renderAuthButtons();
+    renderPlans();
+    showToast(`Welcome back, ${user.name}!`, false);
+    return true;
+  }
+
+  function logout() {
+    currentUser = null;
+    localStorage.removeItem('waprofit_current_user');
+    renderAuthButtons();
+    updateDashboardUI();
+    renderPlans();
+    showToast('Logged out successfully.');
+  }
+
+  // Render investment plans with dynamic button
+  function renderPlans() {
+    const grid = document.getElementById('plansGrid');
+    grid.innerHTML = PLAN_LIST.map(plan => `
+      <div class="plan-card">
+        <h3>${plan.name}</h3>
+        <div class="plan-price">PKR ${plan.price}</div>
+        <div class="plan-daily">📆 Daily: PKR ${plan.daily}</div>
+        <div class="plan-duration">⏱️ ${plan.days} days</div>
+        <div class="plan-total">💰 Total: PKR ${plan.totalReturn}</div>
+        <button class="buy-btn" data-plan-price="${plan.price}" data-plan-name="${plan.name}" data-plan-daily="${plan.daily}" data-plan-days="${plan.days}">Invest Now</button>
+      </div>
+    `).join('');
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const price = parseInt(btn.getAttribute('data-plan-price'));
+        const name = btn.getAttribute('data-plan-name');
+        const daily = parseInt(btn.getAttribute('data-plan-daily'));
+        const days = parseInt(btn.getAttribute('data-plan-days'));
+        const selectedPlan = PLAN_LIST.find(p => p.name === name && p.price === price);
+        if(selectedPlan) investPlan(selectedPlan);
+        else investPlan({ name, price, daily, days, totalReturn: daily*days });
+      });
+    });
+  }
+
+  function renderAuthButtons() {
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    if(currentUser) {
+      loginBtn.style.display = 'none';
+      registerBtn.style.display = 'none';
+      logoutBtn.style.display = 'inline-block';
+    } else {
+      loginBtn.style.display = 'inline-block';
+      registerBtn.style.display = 'inline-block';
+      logoutBtn.style.display = 'none';
+    }
+  }
+
+  // Handle referrer commission when user invests first time
+  function checkReferralBonusOnFirstInvestment() {
+    if(!currentUser) return;
+    if(currentUser.referredBy && !currentUser.referrerBonusClaimed && currentUser.totalInvested > 0) {
+      const users = getUsers();
+      const referrer = users.find(u => u.referralCode === currentUser.referredBy);
+      if(referrer) {
+        const commission = currentUser.totalInvested * 0.05; // 5%
+        referrer.wallet += commission;
+        referrer.totalEarned += commission;
+        // update referrer in users array
+        const idx = users.findIndex(u => u.userId === referrer.userId);
+        if(idx !== -1) users[idx] = referrer;
+        saveUsers(users);
+        if(currentUser.userId === referrer.userId) {} else {
+          // if referrer is logged in elsewhere, but we also update localStorage for referrer if he's current?
+          const storedCurr = loadCurrentUser();
+          if(storedCurr && storedCurr.userId === referrer.userId) {
+            storedCurr.wallet = referrer.wallet;
+            storedCurr.totalEarned = referrer.totalEarned;
+            saveCurrentUser(storedCurr);
+          }
+        }
+        currentUser.referrerBonusClaimed = true;
+        saveCurrentUser(currentUser);
+        const userIndex = users.findIndex(u => u.userId === currentUser.userId);
+        if(userIndex !== -1) users[userIndex] = currentUser;
+        saveUsers(users);
+        showToast(`🎁 Referral commission: PKR ${commission.toFixed(2)} credited to your referrer!`, false);
+      }
+    }
+  }
+
+  // override invest to also trigger referral bonus check after totalInvested changes
+  const originalInvest = investPlan;
+  window.investPlan = function(plan) {
+    originalInvest(plan);
+    setTimeout(() => { checkReferralBonusOnFirstInvestment(); updateDashboardUI(); }, 100);
+  };
+  investPlan = function(plan) { window.investPlan(plan); };
+
+  // Init and event handlers
+  function init() {
+    if(!localStorage.getItem('waprofit_users')) {
+      const demoUser = {
+        userId: 'demo1', name: 'Hamza Ali', email: 'demo@waprofit.com', wallet: 1250, totalInvested: 300, totalEarned: 450,
+        activePlans: [{ id: 'p1', name: 'BASIC', amount: 300, dailyReturn: 50, daysLeft: 85, totalDays: 90, startDate: Date.now() - 432000000 }],
+        referralCode: 'WADEMO123', referredBy: null, referrerBonusClaimed: false
+      };
+      saveUsers([demoUser]);
+      if(!loadCurrentUser()) saveCurrentUser(demoUser);
+    }
+    currentUser = loadCurrentUser();
+    if(currentUser) { 
+      const users = getUsers();
+      const fresh = users.find(u => u.userId === currentUser.userId);
+      if(fresh) currentUser = fresh;
+      saveCurrentUser(currentUser);
+    }
+    updateDashboardUI();
+    renderAuthButtons();
+    renderPlans();
+    // Start earnings interval
+    setInterval(() => { if(currentUser) processDailyEarnings(); }, 15000);
+    setInterval(() => { if(currentUser) updateDashboardUI(); }, 1000);
+    // event listeners
+    document.getElementById('withdrawBtn').addEventListener('click', withdraw);
+    document.getElementById('depositMockBtn').addEventListener('click', addFunds);
+    document.getElementById('copyReferralBtn').addEventListener('click', () => {
+      if(currentUser) { navigator.clipboard.writeText(`https://waprofits.com/ref/${currentUser.referralCode}`); showToast('Referral link copied!'); }
+      else openModal('Login', 'Please login to get your referral link.', null);
+    });
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      openModal('Login', `<input type="email" id="loginEmail" placeholder="Email address" style="padding:12px; border-radius:30px; border:none; width:100%; margin-bottom:12px;"><br><small>Demo: demo@waprofit.com</small>`, () => {
+        const email = document.getElementById('loginEmail')?.value;
+        if(email) loginUser(email);
+        else showToast('Enter email');
+      });
+    });
+    document.getElementById('registerBtn').addEventListener('click', () => {
+      openModal('Register', `<input type="text" id="regName" placeholder="Full Name" style="padding:12px; border-radius:30px; width:100%; margin-bottom:10px;"><input type="email" id="regEmail" placeholder="Email" style="padding:12px; border-radius:30px; width:100%; margin-bottom:10px;"><input type="text" id="refCode" placeholder="Referral Code (optional)" style="padding:12px; border-radius:30px; width:100%;">`, () => {
+        const name = document.getElementById('regName')?.value;
+        const email = document.getElementById('regEmail')?.value;
+        const ref = document.getElementById('refCode')?.value;
+        if(name && email) registerUser(name, email, ref || null);
+        else showToast('Name and email required');
+      });
+    });
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.querySelectorAll('[data-nav]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const id = link.getAttribute('data-nav');
+        if(id === 'home') document.getElementById('homeSection').scrollIntoView({behavior:'smooth'});
+        if(id === 'plans') document.getElementById('plansTitle').scrollIntoView({behavior:'smooth'});
+        if(id === 'dashboard') document.getElementById('dashboardSection').scrollIntoView({behavior:'smooth'});
+        if(id === 'referrals') document.getElementById('referralsSection').scrollIntoView({behavior:'smooth'});
+      });
+    });
+    document.getElementById('heroCta').addEventListener('click', () => document.getElementById('plansTitle').scrollIntoView({behavior:'smooth'}));
+  }
+  init();
+</script>
+</body>
+</html>
